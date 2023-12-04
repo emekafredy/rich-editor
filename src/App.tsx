@@ -1,9 +1,9 @@
-import RichTextEditor from "./views/RichTextEditor";
+import QuillEditor from "./views/TextEditor";
 
 function App() {
   return (
-    <div className="h-screen bg-white">
-      <RichTextEditor />
+    <div className="h-screen bg-white font-sans">
+      <QuillEditor />
     </div>
   );
 }
