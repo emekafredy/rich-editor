@@ -26,6 +26,9 @@ export default {
       black: {
         100: "#343E37",
       },
+      red: {
+        100: "#CD2C2C",
+      },
       primary: "#0C7227",
     },
     fontFamily: {

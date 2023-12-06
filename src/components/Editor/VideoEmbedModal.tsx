@@ -1,10 +1,10 @@
 import { FC } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Modal } from "../Modal";
-import { Select, Input, Button } from "../Forms";
-import { VideoEmbedType } from "../../types/editor";
+import { Select, Input } from "../Forms";
+import { VideoEmbedModalType } from "../../types/editor";
 
-export const VideoEmbed: FC<VideoEmbedType> = ({
+export const VideoEmbedModal: FC<VideoEmbedModalType> = ({
   videoEmbedModalOpen,
   setVideoEmbedModalOpen,
   videoUrl,
@@ -13,6 +13,8 @@ export const VideoEmbed: FC<VideoEmbedType> = ({
   videoProviders,
   selectedProvider,
   setSelectedProvider,
+  errors,
+  setErrors,
 }) => {
   return (
     <>
@@ -20,6 +22,8 @@ export const VideoEmbed: FC<VideoEmbedType> = ({
         <Modal
           showModal={videoEmbedModalOpen}
           setShowModal={setVideoEmbedModalOpen}
+          disabled={videoUrl.trim() === ""}
+          handleEmbed={handleEmbedVideo}
         >
           <p className="font-bold text-md"> Embed </p>
 
@@ -35,26 +39,10 @@ export const VideoEmbed: FC<VideoEmbedType> = ({
             inputType="text"
             value={videoUrl}
             setValue={setVideoUrl}
+            formTitle={selectedProvider.toLowerCase()}
+            errors={errors}
+            setErrors={setErrors}
           />
-
-          <div>
-            <Button
-              content="Embed"
-              size="small"
-              btnClass="primary"
-              handleClick={() => handleEmbedVideo()}
-              disabled={videoUrl.trim() === ""}
-            />
-
-            <Button
-              content="Cancel"
-              size="small"
-              btnClass="secondary"
-              handleClick={() => setVideoEmbedModalOpen(false)}
-              bordered
-              disabled={false}
-            />
-          </div>
         </Modal>
       )}
     </>

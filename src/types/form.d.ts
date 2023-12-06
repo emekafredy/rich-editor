@@ -10,6 +10,9 @@ export type InputType = {
   inputType?: string;
   value?: string | number;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  formTitle: string;
+  errors: any;
+  setErrors: React.Dispatch<React.SetStateAction<any>>;
 };
 
 export type ButtonType = {
@@ -20,3 +23,11 @@ export type ButtonType = {
   bordered?: boolean;
   disabled?: boolean;
 };
+
+type SupportedProvidersType =
+  | "youtube"
+  | "vimeo"
+  | "twitter"
+  | "facebook"
+  | "instagram"
+  | "tiktok";
