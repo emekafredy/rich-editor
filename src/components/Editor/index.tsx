@@ -19,7 +19,7 @@ import { toolbarOptions, formats } from "../../editor-tools";
 import "react-quill/dist/quill.snow.css";
 
 Quill.register("modules/counter", Counter);
-const TEXT_LIMIT = 10;
+const TEXT_LIMIT = 1000;
 
 const RichTextEditor: React.FC<RichTextEditorType> = ({ value, onChange }) => {
   const quillRef = useRef(null);
