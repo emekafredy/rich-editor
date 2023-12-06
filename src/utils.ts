@@ -1,3 +1,5 @@
+import { SupportedProvidersType } from "./types/form";
+
 export const formatYouTubeVideoUrl = (videoUrl: string): string => {
   const youtubeURLRegex =
     /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?.*v=|embed\/|v\/)|youtu\.be\/)([^"&?\/\s]{11})/;
@@ -23,4 +25,30 @@ export const formatVimeoVideoUrl = (videoUrl: string): string => {
   } else {
     return videoUrl;
   }
+};
+
+export const validateUrl = (
+  url: string,
+  provider: SupportedProvidersType
+): boolean => {
+  const baseRegex = /^(https?:\/\/)?www\./;
+  const providerRegexMap: Record<SupportedProvidersType, RegExp> = {
+    youtube: /youtube\.com/,
+    vimeo: /vimeo\.com/,
+    twitter: /twitter\.com/,
+    facebook: /facebook\.com/,
+    instagram: /instagram\.com/,
+    tiktok: /tiktok\.com/,
+  };
+
+  const providerRegex = providerRegexMap[provider];
+  return baseRegex.test(url) && providerRegex.test(url);
+};
+
+export const getWordsCount = (text: string): number => {
+  text = text.trim();
+  const wordCount = text?.split(/\s+/).length;
+  const spaceCount = (text.match(/\s/g) || []).length;
+
+  return wordCount + spaceCount;
 };

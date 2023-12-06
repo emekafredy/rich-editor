@@ -19,7 +19,7 @@ export const Select: FC<FormSelectType> = ({
   return (
     <div className="w-full mt-8 mb-4">
       <label
-        className="block text-gray-200 text-xs mb-2 font-regular uppercase"
+        className="block text-gray-200 text-xs mb-2 font-medium uppercase"
         htmlFor={formLabel}
       >
         {formLabel}
