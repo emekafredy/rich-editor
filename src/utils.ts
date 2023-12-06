@@ -31,7 +31,6 @@ export const validateUrl = (
   url: string,
   provider: SupportedProvidersType
 ): boolean => {
-  const baseRegex = /^(https?:\/\/)?www\./;
   const providerRegexMap: Record<SupportedProvidersType, RegExp> = {
     youtube: /youtube\.com/,
     vimeo: /vimeo\.com/,
@@ -42,7 +41,7 @@ export const validateUrl = (
   };
 
   const providerRegex = providerRegexMap[provider];
-  return baseRegex.test(url) && providerRegex.test(url);
+  return providerRegex.test(url);
 };
 
 export const getWordsCount = (text: string): number => {
