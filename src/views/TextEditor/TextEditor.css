@@ -1,0 +1,101 @@
+.rich-text-editor .ql-toolbar {
+  @apply bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg px-4 py-3 !important;
+}
+
+.rich-text-editor .ql-container {
+  @apply h-[500px] border-0 px-6 text-[16px] text-gray-900 dark:text-white bg-white dark:bg-gray-800 font-normal !important;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.rich-text-editor .ql-editor {
+  @apply px-0 !important;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.rich-text-editor .ql-editor.ql-blank::before {
+  @apply text-gray-400 dark:text-gray-500 not-italic text-lg font-light !important;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-formats {
+  @apply border-r border-gray-200 dark:border-gray-700 mr-4 pr-4 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-formats:last-child {
+  @apply border-r-0 mr-0 pr-0 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-picker-label,
+.rich-text-editor .ql-toolbar .ql-picker-item {
+  @apply text-gray-700 dark:text-gray-300 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-stroke {
+  @apply stroke-gray-600 dark:stroke-gray-400 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-fill {
+  @apply fill-gray-600 dark:fill-gray-400 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-picker-label:hover,
+.rich-text-editor .ql-toolbar .ql-picker-item:hover {
+  @apply text-purple-600 dark:text-purple-400 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-active .ql-stroke {
+  @apply stroke-purple-600 dark:stroke-purple-400 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-active .ql-fill {
+  @apply fill-purple-600 dark:fill-purple-400 !important;
+}
+
+.rich-text-editor .ql-toolbar button:hover .ql-stroke {
+  @apply stroke-purple-600 dark:stroke-purple-400 !important;
+}
+
+.rich-text-editor .ql-toolbar button:hover .ql-fill {
+  @apply fill-purple-600 dark:fill-purple-400 !important;
+}
+
+.rich-text-editor .ql-color-picker .ql-picker-item {
+  @apply border border-gray-200 dark:border-gray-600 rounded m-1 !important;
+}
+
+.rich-text-editor .ql-toolbar .ql-color .ql-picker-label svg,
+.rich-text-editor .ql-toolbar .ql-background .ql-picker-label svg {
+  @apply stroke-gray-600 dark:stroke-gray-400 !important;
+}
+
+.rich-text-editor .ql-editor .ql-video {
+  @apply block w-full h-[400px] rounded-lg shadow-md mx-auto my-4 !important;
+}
+
+.rich-text-editor .ql-editor iframe {
+  @apply rounded-lg shadow-md my-4 !important;
+}
+
+.rich-text-editor .ql-toolbar button:focus {
+  @apply outline-none ring-2 ring-purple-500 ring-opacity-50 rounded !important;
+}
+
+@media (max-width: 768px) {
+  .rich-text-editor .ql-toolbar .ql-formats {
+    @apply mr-2 pr-2 !important;
+  }
+
+  .rich-text-editor .ql-toolbar {
+    @apply px-2 py-2 !important;
+  }
+
+  .rich-text-editor .ql-container {
+    @apply h-[400px] px-4 !important;
+  }
+}
+
+.rich-text-editor .ql-toolbar,
+.rich-text-editor .ql-container,
+.rich-text-editor .ql-editor {
+  @apply transition-all duration-200 ease-in-out !important;
+}

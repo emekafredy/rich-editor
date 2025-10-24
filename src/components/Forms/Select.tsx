@@ -1,7 +1,6 @@
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { FC, useState } from "react";
 import { FormSelectType } from "../../types/form";
-import ChevronDownIcon from "../../assets/icons/icon-chevron-down.svg";
-import ChevronUpIcon from "../../assets/icons/icon-chevron-up.svg";
 
 export const Select: FC<FormSelectType> = ({
   formLabel,
@@ -30,11 +29,7 @@ export const Select: FC<FormSelectType> = ({
           rounded cursor-pointer bg-white-200 border border-white-300"
       >
         {selected || "Select a provider"}
-        <img
-          src={open ? ChevronUpIcon : ChevronDownIcon}
-          alt="logo"
-          className="px-2"
-        />
+        {open ? <ChevronUp /> : <ChevronDown />}
       </div>
       <ul
         className={`bg-white dark:bg-black-300 mt-2 rounded overflow-y-auto transition-all duration-500 shadow-md ${

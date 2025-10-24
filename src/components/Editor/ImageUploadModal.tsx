@@ -1,8 +1,8 @@
+import { X } from "lucide-react";
 import { FC } from "react";
 import "react-quill/dist/quill.snow.css";
-import { Modal } from "../Modal";
 import { ImageUploadModalType } from "../../types/editor";
-import CloseIcon from "../../assets/icons/icon-close.svg";
+import { Modal } from "../Modal";
 
 export const ImageUploadModal: FC<ImageUploadModalType> = ({
   imageUploadModalOpen,
@@ -22,11 +22,7 @@ export const ImageUploadModal: FC<ImageUploadModalType> = ({
         >
           <div className="flex items-center justify-between mt-2 mb-3">
             <p className="font-bold text-md"> Embed </p>
-            <img
-              src={CloseIcon}
-              alt="close-modal"
-              onClick={() => setImageUploadModalOpen(false)}
-            />
+            <X onClick={() => setImageUploadModalOpen(false)} />
           </div>
 
           <p className="font-light text-sm mb-6"> Upload Image </p>

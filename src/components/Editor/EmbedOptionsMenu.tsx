@@ -1,8 +1,9 @@
+import { Plus, X } from "lucide-react";
 import { FC } from "react";
 import "react-quill/dist/quill.snow.css";
+
+import { ImagePlus, Link2, Video } from "lucide-react";
 import { EmbedOptionsMenuType } from "../../types/editor";
-import AddIcon from "../../assets/icons/icon-add.svg";
-import ImageIcon from "../../assets/icons/icon-picture.svg";
 
 const embedOptions = [
   {
@@ -11,11 +12,11 @@ const embedOptions = [
   },
   {
     title: "Video",
-    footNote: "Embed a youtube or vimeo video",
+    footNote: "Embed a youtube or vimeo video links",
   },
   {
-    title: "Social",
-    footNote: "Embed Instagram, Twitter, Ticktok, Facebook",
+    title: "Social Media link",
+    footNote: "Embed Instagram, Twitter, Tiktok, Facebook links",
   },
 ];
 
@@ -36,17 +37,28 @@ export const EmbedOptionsMenu: FC<EmbedOptionsMenuType> = ({
         setVideoEmbedModalOpen(true);
         setShowEmbedMenu(false);
         break;
-      case "Social":
+      case "Social Media link":
         setSocialMediaEmbedModalOpen(true);
         setShowEmbedMenu(false);
         break;
     }
   };
 
+  const optionsIcon = (title: string) => {
+    switch (title) {
+      case "Picture":
+        return <ImagePlus />;
+      case "Video":
+        return <Video />;
+      case "Social Media link":
+        return <Link2 />;
+    }
+  };
+
   return (
     <>
       {showEmbedMenu && (
-        <div className="bg-white-100 absolute bottom-[40px] left-[35px] shadow-md rounded w-[300px] py-4">
+        <div className="bg-white-100 absolute bottom-[60px] left-[40px] shadow-md rounded w-[300px] py-4">
           <p className="font-light text-xs uppercase mb-4 px-4"> Embeds </p>
 
           {embedOptions.map((opt) => {
@@ -56,7 +68,7 @@ export const EmbedOptionsMenu: FC<EmbedOptionsMenuType> = ({
                 className="px-4 py-3 flex items-start justify-start gap-4 hover:bg-green-100 cursor-pointer"
                 onClick={() => openEmbedModal(opt.title)}
               >
-                <img src={ImageIcon} className="w-6" alt="embed-photo" />
+                {optionsIcon(opt.title)}
                 <div className="flex flex-col">
                   <span className="text-xs font-bold text-black-100">
                     {opt.title}
@@ -72,10 +84,10 @@ export const EmbedOptionsMenu: FC<EmbedOptionsMenuType> = ({
       )}
 
       <button
-        className={`absolute z-[1000] bg-gray-100 p-3 rounded-full bottom-[10px] left-[20px]`}
+        className="absolute z-[1000] bg-purple-600 p-3 rounded-full bottom-[10px] left-[20px] text-purple-100 transition-all duration-300"
         onClick={() => setShowEmbedMenu(!showEmbedMenu)}
       >
-        <img src={AddIcon} className="bg-gray-100 rounded-full " alt="" />
+        {showEmbedMenu ? <X /> : <Plus />}
       </button>
     </>
   );

@@ -1,20 +1,20 @@
 import { FC } from "react";
 import "react-quill/dist/quill.snow.css";
-import { Modal } from "../Modal";
-import { Select, Input } from "../Forms";
 import { VideoEmbedModalType } from "../../types/editor";
+import { Input, Select } from "../Forms";
+import { Modal } from "../Modal";
 
 export const VideoEmbedModal: FC<VideoEmbedModalType> = ({
-  videoEmbedModalOpen,
-  setVideoEmbedModalOpen,
+  errors,
   videoUrl,
+  setErrors,
   setVideoUrl,
-  handleEmbedVideo,
   videoProviders,
+  handleEmbedVideo,
   selectedProvider,
   setSelectedProvider,
-  errors,
-  setErrors,
+  videoEmbedModalOpen,
+  setVideoEmbedModalOpen,
 }) => {
   return (
     <>
