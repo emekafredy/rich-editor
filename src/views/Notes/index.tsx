@@ -6,8 +6,9 @@ import { useNotes } from "../../context/NotesProvider";
 import { Note } from "../../types/note";
 
 export const NotesPage: React.FC = () => {
-  const { notes, loading, deleteNote } = useNotes();
   const navigate = useNavigate();
+  const { notes, loading, deleteNote } = useNotes();
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
@@ -21,6 +22,11 @@ export const NotesPage: React.FC = () => {
     const tmp = document.createElement("div");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
+  };
+
+  const getPreviewText = (content: string): string => {
+    const text = stripHtml(content);
+    return text.length > 150 ? text.substring(0, 150) + "..." : text;
   };
 
   const handleDelete = async (
@@ -50,12 +56,18 @@ export const NotesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 px-6 transition-colors duration-300 mt-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 px-6 transition-colors duration-300 mt-8 mb-20">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-500">
-            My Notes
-          </h1>
+          <div>
+            <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-400">
+              My Notes
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              {notes.length} {notes.length === 1 ? "note" : "notes"} created
+            </p>
+          </div>
+
           <button
             onClick={() => navigate("/editor")}
             className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
@@ -74,7 +86,7 @@ export const NotesPage: React.FC = () => {
             <input
               type="text"
               value={searchQuery}
-              placeholder="Search notes..."
+              placeholder="Search notes by title or content..."
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setSearchQuery(e.target.value)
               }
@@ -115,11 +127,11 @@ export const NotesPage: React.FC = () => {
                 className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden"
               >
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2 truncate">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-400 mb-2 truncate">
                     {note.title || "Untitled"}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
-                    {stripHtml(note.content)}
+                    {getPreviewText(note.content)}
                   </p>
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-500 dark:text-gray-500">

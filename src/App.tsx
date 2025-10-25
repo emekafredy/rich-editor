@@ -4,6 +4,7 @@ import { Footer } from "./components/Layouts/Footer";
 import { Header } from "./components/Layouts/Header";
 import { useTheme } from "./context/ThemeProvider";
 import { LandingPage } from "./views/Landing";
+import { NoteDetailsPage } from "./views/Note";
 import { NotesPage } from "./views/Notes";
 import { QuillEditor } from "./views/TextEditor";
 
@@ -21,6 +22,25 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/editor" element={<QuillEditor />} />
         <Route path="/notes" element={<NotesPage />} />
+        <Route
+          path="/editor/:id"
+          element={
+            <>
+              <Header />
+              <QuillEditor />
+            </>
+          }
+        />
+
+        <Route
+          path="/note/:id"
+          element={
+            <>
+              <Header />
+              <NoteDetailsPage />
+            </>
+          }
+        />
       </Routes>
       <Footer />
     </div>

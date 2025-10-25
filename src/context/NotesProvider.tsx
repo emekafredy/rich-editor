@@ -4,6 +4,14 @@ import { Note, NotesContextProps } from "../types/note";
 
 const NotesContext = createContext<NotesContextProps | undefined>(undefined);
 
+export const useNotes = () => {
+  const context = useContext(NotesContext);
+  if (context === undefined) {
+    throw new Error("useNotes must be used within a NotesProvider");
+  }
+  return context;
+};
+
 export const NotesProvider: React.FC<ProviderProps> = ({ children }) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -14,51 +22,62 @@ export const NotesProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const loadNotes = async (): Promise<void> => {
     try {
-      const result = await window.storage.list("note:");
-      if (result && result.keys) {
-        const loadedNotes = await Promise.all(
-          result.keys.map(async (key: string) => {
-            try {
-              const data = await window.storage.get(key);
-              return data ? (JSON.parse(data.value) as Note) : null;
-            } catch (e) {
-              return null;
-            }
-          })
-        );
-        setNotes(
-          loadedNotes
-            .filter((note): note is Note => note !== null)
-            .sort(
-              (a, b) =>
-                new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime()
-            )
-        );
+      setLoading(true);
+      const savedNotes = localStorage.getItem("rich-text-notes");
+      if (savedNotes) {
+        setNotes(JSON.parse(savedNotes));
       }
     } catch (error) {
-      console.log("Loading notes for first time");
-      setNotes([]);
+      console.error("Error loading notes:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const saveNote = async (note: Partial<Note>): Promise<Note> => {
-    try {
-      const noteToSave: Note = {
-        id: note.id || `note_${Date.now()}`,
-        title: note.title || "Untitled",
-        content: note.content || "",
-        updatedAt: new Date().toISOString(),
-        createdAt: note.createdAt || new Date().toISOString(),
-      };
+  const saveNotesToStorage = (updatedNotes: Note[]): void => {
+    localStorage.setItem("rich-text-notes", JSON.stringify(updatedNotes));
+  };
 
-      await window.storage.set(
-        `note:${noteToSave.id}`,
-        JSON.stringify(noteToSave)
-      );
-      await loadNotes();
-      return noteToSave;
+  const generateId = (): string => {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  };
+
+  const saveNote = async (noteData: Partial<Note>): Promise<Note> => {
+    try {
+      const now = new Date().toISOString();
+
+      if (noteData.id) {
+        const updatedNotes = notes.map((note) =>
+          note.id === noteData.id
+            ? {
+                ...note,
+                ...noteData,
+                updatedAt: now,
+              }
+            : note
+        );
+        setNotes(updatedNotes);
+        saveNotesToStorage(updatedNotes);
+
+        const updatedNote = updatedNotes.find(
+          (note) => note.id === noteData.id
+        );
+        if (!updatedNote) throw new Error("Note not found after update");
+        return updatedNote;
+      } else {
+        const newNote: Note = {
+          id: generateId(),
+          title: noteData.title || "Untitled",
+          content: noteData.content || "",
+          createdAt: now,
+          updatedAt: now,
+        };
+
+        const updatedNotes = [newNote, ...notes];
+        setNotes(updatedNotes);
+        saveNotesToStorage(updatedNotes);
+        return newNote;
+      }
     } catch (error) {
       console.error("Error saving note:", error);
       throw error;
@@ -67,8 +86,9 @@ export const NotesProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const deleteNote = async (id: string): Promise<void> => {
     try {
-      await window.storage.delete(`note:${id}`);
-      await loadNotes();
+      const updatedNotes = notes.filter((note) => note.id !== id);
+      setNotes(updatedNotes);
+      saveNotesToStorage(updatedNotes);
     } catch (error) {
       console.error("Error deleting note:", error);
       throw error;
@@ -77,25 +97,24 @@ export const NotesProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const getNote = async (id: string): Promise<Note | null> => {
     try {
-      const result = await window.storage.get(`note:${id}`);
-      return result ? (JSON.parse(result.value) as Note) : null;
+      const note = notes.find((note) => note.id === id);
+      return note || null;
     } catch (error) {
       console.error("Error getting note:", error);
       return null;
     }
   };
 
-  return (
-    <NotesContext.Provider
-      value={{ notes, loading, saveNote, deleteNote, getNote, loadNotes }}
-    >
-      {children}
-    </NotesContext.Provider>
-  );
-};
+  const value: NotesContextProps = {
+    notes,
+    loading,
+    saveNote,
+    deleteNote,
+    getNote,
+    loadNotes,
+  };
 
-export const useNotes = (): NotesContextProps => {
-  const context = useContext(NotesContext);
-  if (!context) throw new Error("useNotes must be used within NotesProvider");
-  return context;
+  return (
+    <NotesContext.Provider value={value}>{children}</NotesContext.Provider>
+  );
 };
