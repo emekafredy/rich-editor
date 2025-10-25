@@ -7,4 +7,4 @@
 
 ### Demo URL
 
-- [Link](https://rich-text-editors-test.vercel.app/)
+- [Link](https://rich-editor-mu.vercel.app/)
