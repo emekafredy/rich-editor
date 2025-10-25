@@ -96,8 +96,15 @@ export const NotesProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   const getNote = async (id: string): Promise<Note | null> => {
+    let savedNotes = notes;
+
+    if (savedNotes.length === 0) {
+      const fromStorage = localStorage.getItem("rich-text-notes") as string;
+      savedNotes = JSON.parse(fromStorage);
+    }
+
     try {
-      const note = notes.find((note) => note.id === id);
+      const note = savedNotes.find((note) => note.id === id);
       return note || null;
     } catch (error) {
       console.error("Error getting note:", error);
